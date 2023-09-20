@@ -1,0 +1,38 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+    <Preference
+        app:icon="@drawable/ic_baseline_wallpaper"
+        app:key="openSet"
+        app:summary="@string/set_as_wp_desc"
+        app:title="@string/set_as_wp" />
+
+    <ListPreference
+        app:defaultValue="@string/pref_default_char"
+        app:entries="@array/char_entries"
+        app:entryValues="@array/char_values"
+        app:icon="@drawable/ic_baseline_person"
+        app:key="@string/pref_key_char"
+        app:title="@string/pref_title_char"
+        app:useSimpleSummaryProvider="true" />
+
+    <PreferenceCategory app:title="@string/pref_title_about">
+        <Preference
+            app:key="ossLicenses"
+            app:title="@string/pref_title_oss_licenses" />
+    </PreferenceCategory>
+
+    <!--    <PreferenceCategory app:title="@string/sync_header">-->
+
+    <!--        <SwitchPreferenceCompat-->
+    <!--            app:key="sync"-->
+    <!--            app:title="@string/sync_title" />-->
+
+    <!--        <SwitchPreferenceCompat-->
+    <!--            app:dependency="sync"-->
+    <!--            app:key="attachment"-->
+    <!--            app:summaryOff="@string/attachment_summary_off"-->
+    <!--            app:summaryOn="@string/attachment_summary_on"-->
+    <!--            app:title="@string/attachment_title" />-->
+
+    <!--    </PreferenceCategory>-->
+
+</PreferenceScreen>

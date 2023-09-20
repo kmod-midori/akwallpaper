@@ -1,0 +1,33 @@
+<resources>
+    <string-array name="char_entries">
+        <item>@string/name_skadi2</item>
+        <item>@string/name_skadi2_sublimation</item>
+        <item>@string/name_specter2</item>
+        <item>@string/name_ling</item>
+        <item>@string/name_nearl2</item>
+        <item>@string/name_phantom_focus</item>
+        <item>@string/name_cqbw_fugue</item>
+        <item>@string/name_dusk_everything_is_a_miracle</item>
+        <item>@string/name_nian_unfettered_freedom</item>
+        <item>@string/name_surtr_summer</item>
+        <item>@string/name_ling_towering_is_cliff_of_nostalgia</item>
+        <item>@string/name_goldenglow_summer_flowers_fa394</item>
+        <item>@string/name_mizuki_summer_feast</item>
+    </string-array>
+
+    <string-array name="char_values">
+        <item>skadi2</item>
+        <item>skadi2_sublimation</item>
+        <item>specter2</item>
+        <item>ling</item>
+        <item>nearl2</item>
+        <item>phantom_focus</item>
+        <item>cqbw_fugue</item>
+        <item>dusk_everything_is_a_miracle</item>
+        <item>nian_unfettered_freedom</item>
+        <item>surtr_summer</item>
+        <item>ling_towering_is_cliff_of_nostalgia</item>
+        <item>goldenglow_summer_flowers_fa394</item>
+        <item>mizuki_summer_feast</item>
+    </string-array>
+</resources>

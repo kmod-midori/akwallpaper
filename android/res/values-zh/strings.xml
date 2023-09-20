@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="set_as_wp">设置为动态壁纸</string>
+    <string name="set_as_wp_desc">打开系统壁纸选择器</string>
+    <string name="name_skadi2">浊心斯卡蒂</string>
+    <string name="name_skadi2_sublimation">浊心斯卡蒂 - 升华</string>
+    <string name="pref_title_char">角色</string>
+    <string name="name_specter2">归溟幽灵鲨</string>
+    <string name="name_ling">令</string>
+    <string name="name_nearl2">耀骑士临光</string>
+    <string name="pref_title_about">关于</string>
+    <string name="pref_title_oss_licenses">开源软件许可</string>
+    <string name="name_phantom_focus">傀影 - 焦点</string>
+    <string name="name_cqbw_fugue">W - 恍惚</string>
+    <string name="name_dusk_everything_is_a_miracle">夕 - 染尘烟</string>
+    <string name="name_nian_unfettered_freedom">年 - 乐逍遥</string>
+    <string name="name_surtr_summer">史尔特尔 - 缤纷奇境</string>
+    <string name="name_ling_towering_is_cliff_of_nostalgia">令 - 崖高梦远</string>
+    <string name="name_goldenglow_summer_flowers_fa394">澄闪 - 夏卉 FA394</string>
+    <string name="name_mizuki_summer_feast">水月 - 夏日餮宴</string>
+</resources>
