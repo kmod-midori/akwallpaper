@@ -20,19 +20,19 @@ class SettingsActivity : AppCompatActivity() {
         setContentView(R.layout.settings_activity)
         if (savedInstanceState == null) {
             supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.settings, SettingsFragment())
-                .commit()
+                    .beginTransaction()
+                    .replace(R.id.settings, SettingsFragment())
+                    .commit()
         }
     }
 
     fun openLwpSetter() {
         val intent = Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER)
         intent.putExtra(
-            WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT, ComponentName(
+                WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT, ComponentName(
                 this,
                 LiveWallpaper::class.java
-            )
+        )
         )
 
         try {
@@ -67,11 +67,13 @@ class SettingsActivity : AppCompatActivity() {
                 true
             }
 
-            findPreference<ListPreference>(getString(R.string.pref_key_char))!!.onPreferenceChangeListener =
-                Preference.OnPreferenceChangeListener { _, _ ->
-                    (requireActivity() as SettingsActivity).notifyChangeCharacter()
-                    true
-                }
+            val listener = Preference.OnPreferenceChangeListener { _, _ ->
+                (requireActivity() as SettingsActivity).notifyChangeCharacter()
+                true
+            }
+
+            findPreference<ListPreference>(getString(R.string.pref_key_char))!!.onPreferenceChangeListener = listener
+            findPreference<ListPreference>(getString(R.string.pref_key_bg))!!.onPreferenceChangeListener = listener
         }
     }
 }

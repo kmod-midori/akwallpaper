@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string-array name="char_entries">
         <item>@string/name_skadi2</item>
         <item>@string/name_skadi2_sublimation</item>
@@ -29,5 +29,21 @@
         <item>ling_towering_is_cliff_of_nostalgia</item>
         <item>goldenglow_summer_flowers_fa394</item>
         <item>mizuki_summer_feast</item>
+    </string-array>
+
+    <string-array name="bg_values" tools:ignore="Typos">
+        <item>bg_anniversary_1</item>
+        <item>bg_iberia_1</item>
+        <item>bg_kazimierz_1</item>
+        <item>bg_laterano_1</item>
+        <item>bg_main_victoria_1</item>
+        <item>bg_rhine_1</item>
+        <item>bg_rhodes_day</item>
+        <item>bg_rhodes_night</item>
+        <item>bg_rogue_1</item>
+        <item>bg_rogue_2</item>
+        <item>bg_siesta_1</item>
+        <item>bg_ursus_1</item>
+        <item>bg_yan_1</item>
     </string-array>
 </resources>

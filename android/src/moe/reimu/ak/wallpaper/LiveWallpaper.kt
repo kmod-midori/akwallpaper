@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.util.Log
+import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceManager
 import com.badlogic.gdx.backends.android.*
 
@@ -22,7 +23,7 @@ class LiveWallpaper : AndroidLiveWallpaperService() {
             numSamples = 2
         }
 
-        wallpaper = AkWallpaperListener(this,)
+        wallpaper = AkWallpaperListener(this)
 
         PreferenceManager.getDefaultSharedPreferences(this).apply {
             val savedZoom = getFloat(getString(R.string.pref_key_zoom), 1f)
@@ -37,7 +38,7 @@ class LiveWallpaper : AndroidLiveWallpaperService() {
                 loadCharacter()
             }
         }
-        registerReceiver(bcastReceiver, filter)
+        ContextCompat.registerReceiver(this, bcastReceiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED)
 
         initialize(wallpaper, config)
     }
@@ -45,11 +46,18 @@ class LiveWallpaper : AndroidLiveWallpaperService() {
     fun loadCharacter() {
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
         val character = prefs.getString(
-            getString(R.string.pref_key_char),
-            getString(R.string.pref_default_char)
+                getString(R.string.pref_key_char),
+                getString(R.string.pref_default_char)
         )!!
         Log.d(TAG, "Loading character $character from preferences")
         wallpaper.loadCharacter(character)
+
+        val background = prefs.getString(
+                getString(R.string.pref_key_bg),
+                getString(R.string.pref_default_bg)
+        )!!
+        Log.d(TAG, "Loading background $background from preferences")
+        wallpaper.loadBackground(background)
     }
 
     override fun onDestroy() {
@@ -63,7 +71,7 @@ class LiveWallpaper : AndroidLiveWallpaperService() {
     }
 
     // Hack to communicate pause and resume to the app
-    inner class AkEgine: AndroidWallpaperEngine() {
+    inner class AkEgine : AndroidWallpaperEngine() {
         override fun onPause() {
             super.onPause()
             wallpaper.pause()
@@ -77,8 +85,8 @@ class LiveWallpaper : AndroidLiveWallpaperService() {
 
 
     class AkWallpaperListener(private val context: LiveWallpaper) :
-        AkWallpaper(),
-        AndroidWallpaperListener {
+            AkWallpaper(),
+            AndroidWallpaperListener {
 
         override fun create() {
             super.create()
@@ -87,16 +95,16 @@ class LiveWallpaper : AndroidLiveWallpaperService() {
         }
 
         override fun offsetChange(
-            xOffset: Float,
-            yOffset: Float,
-            xOffsetStep: Float,
-            yOffsetStep: Float,
-            xPixelOffset: Int,
-            yPixelOffset: Int
+                xOffset: Float,
+                yOffset: Float,
+                xOffsetStep: Float,
+                yOffsetStep: Float,
+                xPixelOffset: Int,
+                yPixelOffset: Int
         ) {
             Log.i(
-                TAG,
-                "offsetChange(xOffset:$xOffset yOffset:$yOffset xOffsetSteep:$xOffsetStep yOffsetStep:$yOffsetStep xPixelOffset:$xPixelOffset yPixelOffset:$yPixelOffset)"
+                    TAG,
+                    "offsetChange(xOffset:$xOffset yOffset:$yOffset xOffsetSteep:$xOffsetStep yOffsetStep:$yOffsetStep xPixelOffset:$xPixelOffset yPixelOffset:$yPixelOffset)"
             );
         }
 

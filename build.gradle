@@ -67,8 +67,8 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86_64"
 
         def activity_version = "1.4.0"
-        implementation 'androidx.core:core-ktx:1.8.0'
-        implementation 'androidx.preference:preference:1.2.1'
+        implementation 'androidx.core:core-ktx:1.9.0'
+        implementation 'androidx.preference:preference:1.2.0'
         implementation 'androidx.appcompat:appcompat:1.6.1'
         implementation 'com.google.android.material:material:1.9.0'
         implementation "androidx.activity:activity-ktx:$activity_version"

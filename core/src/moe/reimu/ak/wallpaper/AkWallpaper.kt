@@ -3,19 +3,33 @@ package moe.reimu.ak.wallpaper
 import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.OrthographicCamera
+import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
+import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.input.GestureDetector
 import com.badlogic.gdx.utils.ScreenUtils
-import com.esotericsoftware.spine.*
+import com.esotericsoftware.spine.AnimationState
+import com.esotericsoftware.spine.AnimationStateData
+import com.esotericsoftware.spine.Skeleton
+import com.esotericsoftware.spine.SkeletonBinary
+import com.esotericsoftware.spine.SkeletonRenderer
 import com.esotericsoftware.spine.utils.TwoColorPolygonBatch
 import kotlin.random.Random
 
 
 open class AkWallpaper : ApplicationAdapter() {
     val camera = OrthographicCamera()
-    lateinit var batch: TwoColorPolygonBatch
+    val backgroundCamera = OrthographicCamera()
 
-    lateinit var skelRenderer: SkeletonRenderer
+    private lateinit var polygonBatch: TwoColorPolygonBatch
+    private lateinit var spriteBatch: SpriteBatch
+
+    private val backgroundLock = Object()
+    private var backgroundTexture: Texture? = null
+    private var backgroundTextureRegion: TextureRegion? = null
+
+    private lateinit var skelRenderer: SkeletonRenderer
 
     private var atlas: TextureAtlas? = null
     private var skeleton: Skeleton? = null
@@ -29,16 +43,22 @@ open class AkWallpaper : ApplicationAdapter() {
     var runningTime = 0.0f
     var lastSpecialTime = 0.0f
 
-    var initialized = false
-    var paused = false
+    private var screenWidth = 0.0f
+    private var screenHeight = 0.0f
 
-    var enqueuedCharacterName: String? = null
+    private var initialized = false
+    private var paused = false
+
+    private var enqueuedCharacterName: String? = null
 
     var rng = Random(System.currentTimeMillis())
 
     override fun create() {
-        batch = TwoColorPolygonBatch()
+        polygonBatch = TwoColorPolygonBatch()
+        spriteBatch = SpriteBatch()
+
         camera.update()
+        backgroundCamera.update()
 
         skelRenderer = SkeletonRenderer().apply {
             premultipliedAlpha = true
@@ -105,28 +125,41 @@ open class AkWallpaper : ApplicationAdapter() {
         val animStateData = AnimationStateData(skelData).apply {
             defaultMix = 0.5f
         }
-        animState = AnimationState(animStateData)
-
-        animState!!.addListener(object : AnimationState.AnimationStateAdapter() {
-            override fun end(entry: AnimationState.TrackEntry?) {
-                if (entry?.animation?.name == "Interact") {
-                    isPlayingInteract = false
+        animState = AnimationState(animStateData).apply {
+            addListener(object : AnimationState.AnimationStateAdapter() {
+                override fun end(entry: AnimationState.TrackEntry?) {
+                    if (entry?.animation?.name == "Interact") {
+                        isPlayingInteract = false
+                    }
                 }
-            }
 
-            override fun complete(entry: AnimationState.TrackEntry?) {
-                val f = rng.nextFloat()
-                if (runningTime - lastSpecialTime >= 8.0f && f < 0.3) {
-                    lastSpecialTime = runningTime
-                    setSpecialAnimation()
+                override fun complete(entry: AnimationState.TrackEntry?) {
+                    val f = rng.nextFloat()
+                    if (runningTime - lastSpecialTime >= 8.0f && f < 0.3) {
+                        lastSpecialTime = runningTime
+                        setSpecialAnimation()
+                    }
                 }
-            }
-        })
+            })
 
-        animState!!.setAnimation(0, "Idle", true)
+            setAnimation(0, "Idle", true)
+        }
 
         runningTime = 0.0f
         lastSpecialTime = 0.0f
+    }
+
+    fun loadBackground(name: String) {
+        synchronized(backgroundLock) {
+            backgroundTextureRegion = null
+            backgroundTexture?.dispose()
+            backgroundTexture = null
+
+            backgroundTexture = Texture(Gdx.files.internal("background/$name.jpg"))
+            backgroundTextureRegion = TextureRegion(backgroundTexture)
+        }
+
+        updateTexRegion()
     }
 
     fun applySavedCamera(zoom: Float, translateX: Float, translateY: Float) {
@@ -137,7 +170,7 @@ open class AkWallpaper : ApplicationAdapter() {
         camera.update()
     }
 
-    fun setAnimationThenIdle(name: String) {
+    private fun setAnimationThenIdle(name: String) {
         animState?.setAnimation(0, name, false)
         animState?.addAnimation(0, "Idle", true, 0f)
     }
@@ -167,15 +200,26 @@ open class AkWallpaper : ApplicationAdapter() {
         animState!!.apply(skeleton)
         skeleton!!.updateWorldTransform()
 
-        batch.projectionMatrix.set(camera.combined)
+        spriteBatch.projectionMatrix.set(backgroundCamera.combined)
 
-        batch.begin()
-        skelRenderer.draw(batch, skeleton!!)
-        batch.end()
+        synchronized(backgroundLock) {
+            backgroundTextureRegion?.let {
+                spriteBatch.begin()
+                spriteBatch.draw(it, 0f, 0f, screenWidth, screenHeight)
+                spriteBatch.end()
+            }
+        }
+
+        polygonBatch.projectionMatrix.set(camera.combined)
+        polygonBatch.begin()
+        skelRenderer.draw(polygonBatch, skeleton!!)
+        polygonBatch.end()
     }
 
     override fun dispose() {
-        batch.dispose()
+        polygonBatch.dispose()
+        spriteBatch.dispose()
+        backgroundTexture?.dispose()
         atlas?.dispose()
     }
 
@@ -195,9 +239,38 @@ open class AkWallpaper : ApplicationAdapter() {
     }
 
     override fun resize(width: Int, height: Int) {
-        camera.viewportHeight = Gdx.graphics.height.toFloat()
-        camera.viewportWidth = Gdx.graphics.width.toFloat()
+        screenHeight = Gdx.graphics.height.toFloat()
+        screenWidth = Gdx.graphics.width.toFloat()
+
+        camera.viewportHeight = screenHeight
+        camera.viewportWidth = screenWidth
         camera.update()
+
+        backgroundCamera.setToOrtho(false, screenWidth, screenHeight)
+
+        updateTexRegion()
+    }
+
+    private fun updateTexRegion() {
+        synchronized(backgroundLock) {
+            val tex = backgroundTexture
+            val texRegion = backgroundTextureRegion
+
+            if (tex != null && texRegion != null) {
+                val screenAspectRatio = screenWidth / screenHeight
+                val imageAspectRatio = tex.width.toFloat() / tex.height
+
+                if (screenAspectRatio > imageAspectRatio) {
+                    val imageHeight = (tex.width.toFloat() / screenAspectRatio).toInt()
+                    // The screen is wider than the image, so the image's height should match the screen's height
+                    texRegion.setRegion(0, (tex.height - imageHeight) / 2, tex.width, imageHeight)
+                } else {
+                    val imageWidth = (tex.height.toFloat() * screenAspectRatio).toInt()
+                    // The screen is taller than the image, so the image's width should match the screen's width
+                    texRegion.setRegion((tex.width - imageWidth) / 2, 0, imageWidth, tex.height)
+                }
+            }
+        }
     }
 
     companion object {

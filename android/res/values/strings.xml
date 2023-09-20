@@ -18,7 +18,9 @@
     <string name="name_skadi2_sublimation">Skadi the Corrupting Heart - Sublimation</string>
     <string name="pref_title_char">Character</string>
     <string name="pref_key_char" translatable="false">character</string>
+    <string name="pref_key_bg" translatable="false">background</string>
     <string name="pref_default_char" translatable="false">skadi2_sublimation</string>
+    <string name="pref_default_bg" translatable="false">bg_anniversary_1</string>
     <string name="name_specter2">Specter the Unchained</string>
     <string name="name_ling">Ling</string>
     <string name="name_nearl2">Nearl the Radiant Knight</string>
@@ -32,5 +34,6 @@
     <string name="name_ling_towering_is_cliff_of_nostalgia">Ling - Towering is Cliff of Nostalgia</string>
     <string name="name_goldenglow_summer_flowers_fa394">Goldenglow - Summer Flowers FA394</string>
     <string name="name_mizuki_summer_feast">Mizuki - Summer Feast</string>
+    <string name="pref_title_bg">Background Image</string>
 
 </resources>

@@ -14,6 +14,15 @@
         app:title="@string/pref_title_char"
         app:useSimpleSummaryProvider="true" />
 
+    <ListPreference
+        app:defaultValue="@string/pref_default_bg"
+        app:entries="@array/bg_values"
+        app:entryValues="@array/bg_values"
+        app:icon="@drawable/ic_baseline_image"
+        app:key="@string/pref_key_bg"
+        app:title="@string/pref_title_bg"
+        app:useSimpleSummaryProvider="true" />
+
     <PreferenceCategory app:title="@string/pref_title_about">
         <Preference
             app:key="ossLicenses"

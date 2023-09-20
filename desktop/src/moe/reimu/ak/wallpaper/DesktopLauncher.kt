@@ -22,7 +22,8 @@ object DesktopLauncher {
     class AkWpDesktop: AkWallpaper() {
         override fun create() {
             super.create()
-            loadCharacter("skadi2_sublimation")
+            loadCharacter("mizuki_summer_feast")
+            loadBackground("bg_anniversary_1")
         }
     }
 }

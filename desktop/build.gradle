@@ -45,3 +45,7 @@ task dist(type: Jar) {
 dist.dependsOn classes
 
 eclipse.project.name = appName + "-desktop"
+
+kotlin {
+    jvmToolchain(8)
+}
