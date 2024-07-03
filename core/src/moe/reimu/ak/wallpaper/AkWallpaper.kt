@@ -111,6 +111,8 @@ open class AkWallpaper : ApplicationAdapter() {
 
         Gdx.app.log(TAG, "Loading character $character")
 
+        skelRenderer.premultipliedAlpha = !Gdx.files.internal("$character/no_premul").exists()
+
         atlas?.dispose()
         atlas = TextureAtlas(Gdx.files.internal("$character/char.atlas"))
         val skelBinary = SkeletonBinary(atlas).apply {

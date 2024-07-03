@@ -13,6 +13,8 @@
         <item>@string/name_ling_towering_is_cliff_of_nostalgia</item>
         <item>@string/name_goldenglow_summer_flowers_fa394</item>
         <item>@string/name_mizuki_summer_feast</item>
+        <item>@string/name_reed_the_frame_shadow_curator</item>
+        <item>@string/name_muelsyse</item>
     </string-array>
 
     <string-array name="char_values">
@@ -29,6 +31,8 @@
         <item>ling_towering_is_cliff_of_nostalgia</item>
         <item>goldenglow_summer_flowers_fa394</item>
         <item>mizuki_summer_feast</item>
+        <item>reed_the_frame_shadow_curator</item>
+        <item>muelsyse</item>
     </string-array>
 
     <string-array name="bg_values" tools:ignore="Typos">

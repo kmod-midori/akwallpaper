@@ -9,7 +9,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.1.1'
+        classpath 'com.android.tools.build:gradle:8.4.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "com.google.android.gms:oss-licenses-plugin:0.10.6"
     }
@@ -22,11 +22,6 @@ allprojects {
     ext {
         appName = "Arknights Wallpaper"
         gdxVersion = '1.10.0'
-        roboVMVersion = '2.3.16'
-        box2DLightsVersion = '1.5'
-        ashleyVersion = '1.7.4'
-        aiVersion = '1.8.2'
-        gdxControllersVersion = '2.2.1'
     }
 
     repositories {
@@ -66,14 +61,13 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86_64"
 
-        def activity_version = "1.4.0"
-        implementation 'androidx.core:core-ktx:1.9.0'
-        implementation 'androidx.preference:preference:1.2.0'
-        implementation 'androidx.appcompat:appcompat:1.6.1'
-        implementation 'com.google.android.material:material:1.9.0'
-        implementation "androidx.activity:activity-ktx:$activity_version"
+        implementation 'androidx.core:core-ktx:1.13.1'
+        implementation 'androidx.preference:preference:1.2.1'
+        implementation 'androidx.appcompat:appcompat:1.7.0'
+        implementation 'com.google.android.material:material:1.12.0'
+        implementation "androidx.activity:activity-ktx:1.9.0"
 
-        implementation 'com.google.android.gms:play-services-oss-licenses:17.0.1'
+        implementation 'com.google.android.gms:play-services-oss-licenses:17.1.0'
     }
 }
 
